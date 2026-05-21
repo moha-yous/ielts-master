@@ -1,0 +1,17 @@
+{
+  "name": "IELTS Master Preparation",
+  "short_name": "IELTS Master",
+  "description": "تطبيق متكامل وسهل للتحضير لاختبار الأيلتس وحساب المعدل",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

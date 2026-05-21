@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Master - تطبيق التحضير للأيلتس</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 24px;
+            color: #3b82f6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* شاشات التطبيق */
+        .app-screen {
+            display: none;
+        }
+
+        .app-screen.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* البطاقات والأزرار */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 { margin-bottom: 15px; font-size: 20px; }
+        p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 16px;
+            transition: 0.2s;
+            margin-top: 15px;
+        }
+
+        .btn:hover { background: #1d4ed8; }
+
+        /* شريط التنقل السفلي السهل */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+
+        .nav-item icon {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* تنسيق أسئلة الاختبار */
+        .question {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 15px;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option-label {
+            display: block;
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            margin: 6px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .option-label:hover {
+            border-color: var(--primary);
+        }
+        .option-label input {
+            margin-left: 10px;
+        }
+
+        /* النتيجة */
+        .score-box {
+            text-align: center;
+            padding: 30px;
+        }
+        .band-score {
+            font-size: 64px;
+            font-weight: bold;
+            color: var(--success);
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IELTS Master 🚀</h1>
+    </header>
+
+    <div class="container">
+        
+        <!-- 1. الشاشة الرئيسية -->
+        <div id="home" class="app-screen active">
+            <div class="card">
+                <h2>مرحباً بك في رحلة الأيلتس 👋</h2>
+                <p>هذا التطبيق مصمم لمساعدتك على التدرب بذكاء وسهولة. ابدأ باكتشاف نصيحة اليوم أو توجه مباشرة للاختبارات التجريبية.</p>
+            </div>
+            <div class="card" style="border-right: 4px solid #3b82f6;">
+                <h3>💡 نصيحة اليوم (قسم القراءة)</h3>
+                <p style="margin-top: 8px;">لا تقرأ النص كاملاً كلمة بكلمة! استخدم مهارة الـ Skimming (المسح السريع) لأخذ فكرة عامة، ثم ابحث عن الكلمات المفتاحية لحل الأسئلة.</p>
+            </div>
+            <button class="btn" onclick="switchScreen('tests')">ابدأ اختبار تجريبي الآن</button>
+        </div>
+
+        <!-- 2. شاشة الاختبارات -->
+        <div id="tests" class="app-screen">
+            <div class="card">
+                <h2>📝 اختبار القراءة التجريبي (Mini-Mock Test)</h2>
+                <p>أجب على الأسئلة التالية لمحاكاة آلية احتساب الدرجات في الأيلتس.</p>
+                <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 15px 0;">
+                
+                <form id="ieltsForm">
+                    <!-- السؤال 1 -->
+                    <div class="question">
+                        <p><strong>السؤال 1:</strong> ما هي المهارة الأساسية التي تحتاجها للبحث عن معلومة محددة وتاريخ معين داخل النص بسرعة؟</p>
+                        <div class="options">
+                            <label class="option-label"><input type="radio" name="q1" value="A"> Skimming (المسح العام)</label>
+                            <label class="option-label"><input type="radio" name="q1" value="B"> Scanning (المسح الموجه)</label>
+                            <label class="option-label"><input type="radio" name="q1" value="C"> Intensive Reading (القراءة المكثفة)</label>
+                        </div>
+                    </div>
+
+                    <!-- السؤال 2 -->
+                    <div class="question">
+                        <p><strong>السؤال 2:</strong> في سؤال (True, False, Not Given)، إذا كانت المعلومة غير موجودة نهائياً في النص أو لا يمكن إثباتها، نختار:</p>
+                        <div class="options">
+                            <label class="option-label"><input type="radio" name="q2" value="A"> True</label>
+                            <label class="option-label"><input type="radio" name="q2" value="B"> False</label>
+                            <label class="option-label"><input type="radio" name="q2" value="C"> Not Given</label>
+                        </div>
+                    </div>
+
+                    <!-- السؤال 3 -->
+                    <div class="question">
+                        <p><strong>السؤال 3:</strong> كم عدد الكلمات الموصى بكتابتها كحد أدنى في المهمة الثانية (Task 2) من اختبار الكتابة؟</p>
+                        <div class="options">
+                            <label class="option-label"><input type="radio" name="q3" value="A"> 150 كلمة</label>
+                            <label class="option-label"><input type="radio" name="q3" value="B"> 250 كلمة</label>
+                            <label class="option-label"><input type="radio" name="q3" value="C"> 400 كلمة</label>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn" onclick="calculateResult()">إنهاء الاختبار وحساب المعدل</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 3. شاشة النتيجة -->
+        <div id="result" class="app-screen">
+            <div class="card score-box">
+                <h2>معدلك المتوقع هو:</h2>
+                <div class="band-score" id="bandDisplay">0.0</div>
+                <p id="feedbackText">لقد قمت بعمل رائع! استمر في التدرب لتحقيق هدفك.</p>
+                <button class="btn" onclick="switchScreen('tests')">إعادة المحاولة</button>
+            </div>
+        </div>
+
+        <!-- 4. شاشة الإحصائيات -->
+        <div id="stats" class="app-screen">
+            <div class="card">
+                <h2>📊 سجل الدرجات والتقدم</h2>
+                <p>آخر معدل تم تحصيله: <strong id="lastScore" style="color:var(--success)">لم تختبر بعد</strong></p>
+                <div style="margin-top: 20px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; border: 1px dashed var(--card-border);">
+                    <p>🎯 هدفك القادم: الحصول على Band 7.5</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- شريط التنقل السفلي -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchScreen('home', this)">🧭<br>الرئيسية</div>
+        <div class="nav-item" onclick="switchScreen('tests', this)">📝<br>الاختبارات</div>
+        <div class="nav-item" onclick="switchScreen('stats', this)">📊<br>الدرجات</div>
+    </div>
+
+    <script>
+        // نظام التنقل بين الواجهات
+        function switchScreen(screenId, element) {
+            // إخفاء كل الشاشات
+            document.querySelectorAll('.app-screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            // إظهار الشاشة المطلوبة
+            document.getElementById(screenId).classList.add('active');
+
+            // تحديث شكل الأزرار في الشريط السفلي إذا تم تمرير العنصر
+            if(element) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                element.classList.add('active');
+            }
+        }
+
+        // حساب الدرجات والـ Band Score
+        function calculateResult() {
+            const answers = { q1: 'B', q2: 'C', q3: 'B' }; // الإجابات الصحيحة
+            let correctCount = 0;
+            
+            const form = document.getElementById('ieltsForm');
+            const formData = new FormData(form);
+
+            // فحص الإجابات
+            if(formData.get('q1') === answers.q1) correctCount++;
+            if(formData.get('q2') === answers.q2) correctCount++;
+            if(formData.get('q3') === answers.q3) correctCount++;
+
+            // نظام محاكاة احتساب معدل الأيلتس (Band Score) من 9
+            let bandScore = 0;
+            if(correctCount === 3) bandScore = 9.0;
+            else if(correctCount === 2) bandScore = 6.5;
+            else if(correctCount === 1) bandScore = 4.5;
+            else bandScore = 1.0;
+
+            // عرض النتيجة
+            document.getElementById('bandDisplay').innerText = bandScore.toFixed(1);
+            document.getElementById('lastScore').innerText = "Band " + bandScore.toFixed(1);
+
+            // تخصيص رسالة التقييم بناءً على النتيجة
+            let feedback = "";
+            if(bandScore >= 7.0) feedback = "ممتاز جداً! مستواك يؤهلك للجامعات العالمية الهامة.";
+            else if(bandScore >= 5.0) feedback = "جيد! تحتاج لبعض التركيز الإضافي لتجاوز حاجز الـ 7.0.";
+            else feedback = "لا تقلق، هذه مجرد البداية. استمر في المراجعة اليومية للتحسن.";
+            
+            document.getElementById('feedbackText').innerText = feedback;
+
+            // الانتقال لشاشة النتيجة
+            switchScreen('result');
+        }
+
+        // تسجيل الـ Service Worker لتفعيل التشغيل بدون إنترنت والتثبيت
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('تطبيق PWA جاهز ومسجل بنجاح!'))
+                    .catch(err => console.log('فشل تسجيل PWA:', err));
+            });
+        }
+    </script>
+</body>
+</html>
